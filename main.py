@@ -28,7 +28,8 @@ class ProgramPainel:
                 sg.CalendarButton('Calendário', format='%d-%m-%Y %H:%M:%S')
             ],
             [sg.Button('Confirmar')],
-            [sg.Multiline(size=(50,15), key='__OUTPUT__', font=FONT_STR, do_not_clear=False)]
+            [sg.Multiline(size=(50,18), key='__OUTPUT__', font=FONT_STR, do_not_clear=False)],
+            [sg.Text('--Tempo Aproximado--')]
         ]
         # Window
         self.window = sg.Window('Previsão de produção v0.1').layout(layout)
@@ -41,31 +42,34 @@ class ProgramPainel:
                 break
             try:
                 if event == 'Confirmar':
-                    if functions.qtdHora(self.values["material"].strip(), self.values["linha"].strip()) == 'NP':
+                    qtd_hora = functions.qtdHora(self.values["material"].strip(),
+                                self.values["linha"].strip())
+                    if qtd_hora == 'NP':
                         sg.cprint('Material não é produzido nesta linha!')
                     else:
                         if self.values['setup'] == '':
                             self.values['setup'] = '0'
-                        qtd_hora = functions.qtdHora(self.values["material"].strip(),
-                                                    self.values["linha"].strip())
                         qtd_dia = qtd_hora * (8 - int(self.values["setup"]))
                         demanda = int(self.values["produzir"]) - qtd_dia
                         if demanda < 0:
+                            print(demanda)
                             demanda = 'Demanda Atingida'
-                        fim_producao = functions.calcularDias(
-                            self.values["inicio"], 
-                            self.values["material"].strip(),
-                            self.values["produzir"], 
-                            self.values["setup"],
-                            self.values["linha"])
+                            fim_producao = 'Concluído no mesmo dia'
+                        else:
+                            fim_producao = functions.calcularDias(
+                                self.values["inicio"],
+                                qtd_hora,
+                                self.values["produzir"],
+                                qtd_dia,
+                                self.values["setup"])
                         sg.cprint(f'Material: {functions.nomeMaterial(self.values["material"].strip())}')
                         sg.cprint(f'Qtd. Hora: {qtd_hora} Minutos')
                         sg.cprint(f'Qtd. Dia: {qtd_dia} Minutos')
                         sg.cprint(f'Demanda prox. Dias: {demanda}')
                         sg.cprint(f'Acabará em(Estimativa): {fim_producao}')
-                        sg.cprint('\n\n\n\n\n -- Tempo aproximado --')
+                        sg.cprint('\n\n\n\n\n\n\n\n\nAAAAAAAA')
                 elif event == 'link':
-                    webbrowser.open('https://github.com/LeonardoHMS')
+                        webbrowser.open('https://github.com/LeonardoHMS')
             except:
                 sg.cprint('Informações inválidas!')
 
