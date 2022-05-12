@@ -76,9 +76,11 @@ def qtdHora(codigo, linha):
     return hora
 
 
-def calcularDias(dia, hora, total, qtd_hora, setup=0):
+def calcularDias(dia, hora, total, qtd_hora, setup):
     Total = int(total)
     qtd_min = qtd_hora/60
+    setup = setup.split(':')
+    set_horas = int(timedelta(hours=int(setup[0]), minutes=int(setup[1]), seconds=int(setup[2])).seconds / 60)
     dia = dia.split('-')
     hora = hora.split(':')
     data = datetime(
@@ -89,7 +91,13 @@ def calcularDias(dia, hora, total, qtd_hora, setup=0):
         minute=int(hora[1]),
         second=int(hora[2])
         )
-    data += timedelta(hours=int(setup))
+    while set_horas > 0:
+        data += timedelta(minutes=1)
+        set_horas -= 1
+        if data.hour == 11 and data.minute == 35:
+            data += timedelta(minutes=90)
+        if data.hour == 17 and data.minute > 28:
+            data += timedelta(minutes=822)
     while Total > 0:
         Total -= qtd_min
         data += timedelta(minutes=1)
@@ -107,5 +115,5 @@ def calcularDias(dia, hora, total, qtd_hora, setup=0):
 
 
 if __name__ == '__main__':
-    dias = calcularDias('11-05-2022 07:10:00', '1900', 60, '1')
+    dias = calcularDias('12-05-2022', '07:10:00', '500', 109, '05:00:00')
     print(dias)

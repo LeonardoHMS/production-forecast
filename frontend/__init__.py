@@ -24,7 +24,8 @@ class ProgramPainel:
             ],
             [   
                 sg.Text('Setup'),
-                sg.Input(key='setup', size=SIZE_INPUT), 
+                sg.Combo(functions.HORAS, key='set_hora', default_value='00'),
+                sg.Combo(functions.MINUTOS, key='set_min', default_value='00'), 
                 sg.Text('Data início'), 
                 sg.Input(key='dia', size=SIZE_INPUT), 
                 sg.CalendarButton('Calendário', format='%d-%m-%Y', month_names=functions.MES, day_abbreviations=functions.ABV_DIAS)
@@ -50,18 +51,16 @@ class ProgramPainel:
                 break
             try:
                 if event == 'Confirmar':
+                    set_horas = f'{self.values["set_hora"]}:{self.values["set_min"]}:00'
                     hora = f'{self.values["horas"]}:{self.values["minutos"]}:00'
                     qtd_hora = functions.qtdHora(self.values["material"].strip(),
                                 self.values["linha"].strip())
                     if qtd_hora == 'NP':
                         sg.cprint('Material não é produzido nesta linha!')
                     else:
-                        if self.values['setup'] == '':
-                            self.values['setup'] = '0'
-                        qtd_dia = qtd_hora * (8 - int(self.values["setup"]))
+                        qtd_dia = qtd_hora * (8 - int(self.values["set_hora"]))
                         demanda = int(self.values["produzir"]) - qtd_dia
                         if demanda < 0:
-                            print(demanda)
                             demanda = 'Demanda Atingida'
                             fim_producao = 'Concluído no mesmo dia'
                         else:
@@ -70,7 +69,7 @@ class ProgramPainel:
                                 hora,
                                 self.values["produzir"],
                                 qtd_hora,
-                                self.values["setup"])
+                                set_horas)
                         sg.cprint(f'Material: {functions.nomeMaterial(self.values["material"].strip())}')
                         sg.cprint(f'Qtd. Hora: {qtd_hora} Minutos')
                         sg.cprint(f'Qtd. Dia: {qtd_dia} Minutos')
