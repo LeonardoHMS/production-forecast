@@ -76,9 +76,10 @@ def qtdHora(codigo, linha):
     return hora
 
 
-def calcularDias(dia, hora, total, qtd_hora, setup):
+def calcularDias(dia, hora, total, qtd_hora, setup, extra):
     Total = int(total)
     qtd_min = qtd_hora/60
+    print(qtd_min)
     setup = setup.split(':')
     set_horas = int(timedelta(hours=int(setup[0]), minutes=int(setup[1]), seconds=int(setup[2])).seconds / 60)
     dia = dia.split('-')
@@ -96,15 +97,23 @@ def calcularDias(dia, hora, total, qtd_hora, setup):
         set_horas -= 1
         if data.hour == 11 and data.minute == 35:
             data += timedelta(minutes=90)
-        if data.hour == 17 and data.minute > 28:
-            data += timedelta(minutes=822)
+        if extra:
+            if data.hour == 19 and data.minute > 28:
+                data += timedelta(minutes=702)
+        else:
+            if data.hour == 17 and data.minute > 28:
+                data += timedelta(minutes=822)
     while Total > 0:
         Total -= qtd_min
         data += timedelta(minutes=1)
         if data.hour == 11 and data.minute == 35:
             data += timedelta(minutes=90)
-        if data.hour == 17 and data.minute > 28:
-            data += timedelta(minutes=822)
+        if extra:
+            if data.hour == 19 and data.minute > 28:
+                data += timedelta(minutes=702)
+        else:
+            if data.hour == 17 and data.minute > 28:
+                data += timedelta(minutes=822)
         indice_semana = data.weekday()
         dia_semana = DIAS[indice_semana]
         if dia_semana == 'Sábado':

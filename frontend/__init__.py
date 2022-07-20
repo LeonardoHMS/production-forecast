@@ -35,7 +35,9 @@ class ProgramPainel:
                 sg.Text(f'{"Hora início":>29}'),
                 sg.Combo(functions.HORAS, key='horas', default_value='07'),
                 sg.Text(':'),
-                sg.Combo(functions.MINUTOS, key='minutos', default_value='10')
+                sg.Combo(functions.MINUTOS, key='minutos', default_value='10'),
+                sg.Text('H. Extra:'),
+                sg.Checkbox('', default=False, key='extra')
             ],
             [sg.Multiline(size=(50,18), key='__OUTPUT__', font=FONT_STR, do_not_clear=False)],
             [sg.Text('--Tempo Aproximado--')]
@@ -58,7 +60,7 @@ class ProgramPainel:
                     if qtd_hora == 'NP':
                         sg.cprint('Material não é produzido nesta linha!')
                     else:
-                        qtd_dia = qtd_hora * (8 - int(self.values["set_hora"]))
+                        qtd_dia = (qtd_hora/60) * (528 - (int(self.values["set_hora"])*60))
                         demanda = int(self.values["produzir"]) - qtd_dia
                         if demanda < 0:
                             demanda = 'Demanda Atingida'
@@ -69,10 +71,11 @@ class ProgramPainel:
                                 hora,
                                 self.values["produzir"],
                                 qtd_hora,
-                                set_horas)
+                                set_horas,
+                                self.values['extra'])
                         sg.cprint(f'Material: {functions.nomeMaterial(self.values["material"].strip())}')
                         sg.cprint(f'Qtd. Hora: {qtd_hora} Minutos')
-                        sg.cprint(f'Qtd. Dia: {qtd_dia} Minutos')
+                        sg.cprint(f'Qtd. Aproximada 1º dia: {int(qtd_dia)} Minutos')
                         sg.cprint(f'Demanda prox. Dias: {demanda}')
                         sg.cprint(f'Acabará em(Estimativa): {fim_producao}')
                 elif event == 'link':
