@@ -60,7 +60,11 @@ class ProgramPainel:
                     if qtd_hora == 'NP':
                         sg.cprint('Material não é produzido nesta linha!')
                     else:
-                        qtd_dia = (qtd_hora/60) * (528 - (int(self.values["set_hora"])*60))
+                        if self.values['extra']:
+                            minutos_dia = 648
+                        else:
+                            minutos_dia = 528
+                        qtd_dia = (qtd_hora/60) * (minutos_dia - (int(self.values["set_hora"])*60))
                         demanda = int(self.values["produzir"]) - qtd_dia
                         if demanda < 0:
                             demanda = 'Demanda Atingida'
