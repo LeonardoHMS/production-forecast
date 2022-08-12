@@ -78,8 +78,8 @@ class ProgramPainel:
                                 set_horas,
                                 self.values['extra'])
                         sg.cprint(f'Material: {functions.nomeMaterial(self.values["material"].strip())}')
-                        sg.cprint(f'Qtd. Hora: {qtd_hora} Minutos')
-                        sg.cprint(f'Qtd. Aproximada 1º dia: {int(qtd_dia)} Minutos')
+                        sg.cprint(f'Qtd. Hora: {qtd_hora} Unidades')
+                        sg.cprint(f'Qtd. Aproximada 1º dia: {int(qtd_dia)} Unidades')
                         sg.cprint(f'Demanda prox. Dias: {demanda}')
                         sg.cprint(f'Acabará em(Estimativa): {fim_producao}')
                 elif event == 'link':

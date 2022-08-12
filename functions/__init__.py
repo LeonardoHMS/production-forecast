@@ -79,7 +79,6 @@ def qtdHora(codigo, linha):
 def calcularDias(dia, hora, total, qtd_hora, setup, extra):
     Total = int(total)
     qtd_min = qtd_hora/60
-    print(qtd_min)
     setup = setup.split(':')
     set_horas = int(timedelta(hours=int(setup[0]), minutes=int(setup[1]), seconds=int(setup[2])).seconds / 60)
     dia = dia.split('-')
