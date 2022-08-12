@@ -95,7 +95,7 @@ def calcularDias(dia, hora, total, qtd_hora, setup, extra):
         data += timedelta(minutes=1)
         set_horas -= 1
         if data.hour == 11 and data.minute == 35:
-            data += timedelta(minutes=90)
+            data += timedelta(minutes=90+48) # Acrescenta 48 para correção, tempo de parada
         if extra:
             if data.hour == 19 and data.minute > 28:
                 data += timedelta(minutes=702)
@@ -106,7 +106,7 @@ def calcularDias(dia, hora, total, qtd_hora, setup, extra):
         Total -= qtd_min
         data += timedelta(minutes=1)
         if data.hour == 11 and data.minute == 35:
-            data += timedelta(minutes=90)
+            data += timedelta(minutes=90+48) # Acrescenta 48 para correção, tempo de parada
         if extra:
             if data.hour == 19 and data.minute > 28:
                 data += timedelta(minutes=702)

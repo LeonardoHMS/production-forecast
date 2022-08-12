@@ -64,8 +64,8 @@ class ProgramPainel:
                             minutos_dia = 648
                         else:
                             minutos_dia = 528
-                        qtd_dia = (qtd_hora/60) * (minutos_dia - (int(self.values["set_hora"])*60))
-                        demanda = int(self.values["produzir"]) - qtd_dia
+                        qtd_dia = (qtd_hora/60) * ((minutos_dia - 48) - (int(self.values["set_hora"])*60)) # 48 seria tempo parado, para dados mais reais
+                        demanda = int(self.values["produzir"]) - int(qtd_dia)
                         if demanda < 0:
                             demanda = 'Demanda Atingida'
                             fim_producao = 'Concluído no mesmo dia'
@@ -80,7 +80,7 @@ class ProgramPainel:
                         sg.cprint(f'Material: {functions.nomeMaterial(self.values["material"].strip())}')
                         sg.cprint(f'Qtd. Hora: {qtd_hora} Unidades')
                         sg.cprint(f'Qtd. Aproximada 1º dia: {int(qtd_dia)} Unidades')
-                        sg.cprint(f'Demanda prox. Dias: {demanda}')
+                        sg.cprint(f'Demanda prox. Dias: {int(demanda)}')
                         sg.cprint(f'Acabará em(Estimativa): {fim_producao}')
                 elif event == 'link':
                         webbrowser.open('https://github.com/LeonardoHMS')
