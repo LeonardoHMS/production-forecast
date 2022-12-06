@@ -76,7 +76,13 @@ def qtdHora(codigo, linha):
     return hora
 
 
-def calcularDias(dia, hora, total, qtd_hora, setup, extra):
+def calcularDias(dia, hora, total, qtd_hora, setup, extra, periodo):
+    horarios_diurno = [11, 35, 17, 28, 48, 90, 822]
+    horarios_noturno = [22, 0, 2, 48, 20, 60, 880]
+    if periodo:
+        horarios = horarios_noturno
+    else:
+        horarios = horarios_diurno
     Total = int(total)
     qtd_min = qtd_hora/60
     setup = setup.split(':')
@@ -94,25 +100,26 @@ def calcularDias(dia, hora, total, qtd_hora, setup, extra):
     while set_horas > 0:
         data += timedelta(minutes=1)
         set_horas -= 1
-        if data.hour == 11 and data.minute == 35:
-            data += timedelta(minutes=90+48) # Acrescenta 48 para correção, tempo de parada
+        if data.hour == horarios[0] and data.minute == horarios[1]:
+            data += timedelta(minutes=horarios[5]+horarios[4]) # Acrescenta 48 para correção, tempo de parada
+            print(data)
         if extra:
             if data.hour == 19 and data.minute > 28:
                 data += timedelta(minutes=702)
         else:
-            if data.hour == 17 and data.minute > 28:
-                data += timedelta(minutes=822)
+            if data.hour == horarios[2] and data.minute > horarios[3]:
+                data += timedelta(minutes=horarios[6])
     while Total > 0:
         Total -= qtd_min
         data += timedelta(minutes=1)
-        if data.hour == 11 and data.minute == 35:
-            data += timedelta(minutes=90+48) # Acrescenta 48 para correção, tempo de parada
+        if data.hour == horarios[0] and data.minute == horarios[1]:
+            data += timedelta(minutes=horarios[5]+horarios[4]) # Acrescenta 48 para correção, tempo de parada
         if extra:
             if data.hour == 19 and data.minute > 28:
                 data += timedelta(minutes=702)
         else:
-            if data.hour == 17 and data.minute > 28:
-                data += timedelta(minutes=822)
+            if data.hour == horarios[2] and data.minute > horarios[3]:             
+                data += timedelta(minutes=horarios[6])
         indice_semana = data.weekday()
         dia_semana = DIAS[indice_semana]
         if dia_semana == 'Sábado':

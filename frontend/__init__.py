@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 import functions
+import traceback
 import webbrowser
 
 
@@ -31,6 +32,9 @@ class ProgramPainel:
                 sg.CalendarButton('Calendário', format='%d-%m-%Y', month_names=functions.MES, day_abbreviations=functions.ABV_DIAS)
             ],
             [
+                sg.Radio('diurno', group_id='radio_periodo', default=True, key='diurno'), sg.Radio('noturno', group_id='radio_periodo', key='noturno')
+            ],
+            [
                 sg.Button('Confirmar'),
                 sg.Text(f'{"Hora início":>29}'),
                 sg.Combo(functions.HORAS, key='horas', default_value='07'),
@@ -43,7 +47,7 @@ class ProgramPainel:
             [sg.Text('--Tempo Aproximado--')]
         ]
         # Window
-        self.window = sg.Window('Tempo de produção - v1.0', icon='static/work.ico').layout(layout)
+        self.window = sg.Window('Tempo de produção - v1.5', icon='static/work.ico').layout(layout)
         sg.cprint_set_output_destination(multiline_key='__OUTPUT__', window=self.window)
 
     def startProgram(self):
@@ -76,7 +80,8 @@ class ProgramPainel:
                                 self.values["produzir"],
                                 qtd_hora,
                                 set_horas,
-                                self.values['extra'])
+                                self.values['extra'],
+                                self.values['noturno'])
                         sg.cprint(f'Material: {functions.nomeMaterial(self.values["material"].strip())}')
                         sg.cprint(f'Qtd. Hora: {qtd_hora} Unidades')
                         sg.cprint(f'Qtd. Aproximada 1º dia: {int(qtd_dia)} Unidades')
@@ -86,6 +91,7 @@ class ProgramPainel:
                         webbrowser.open('https://github.com/LeonardoHMS')
             except:
                 sg.cprint('Informações inválidas!')
+                sg.popup(traceback.format_exc(), title='Erro', icon=r'static/work.ico')
 
 
 def main():
