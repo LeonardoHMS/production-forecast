@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import pandas as pd
 
 DAYS = os.environ.get('DAYS')
+PRODUCTION_LINE = os.environ.get('PRODUCTION_LINE')
 
 HORAS = []
 for hour in range(24):
