@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\Leonardo Mantovani\Documents\Github\production-forecast\venv"
+VIRTUAL_ENV="C:\Users\leori\OneDrive\Área de Trabalho\production-forecast\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
