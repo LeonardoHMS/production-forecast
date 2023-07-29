@@ -42,14 +42,14 @@ class ProgramPainel:
             ],
             [
                 sg.Text('Setup'),
-                sg.Combo(functions.horas, key='set_hora', default_value='00'),
+                sg.Combo(functions.HOURS, key='set_hora', default_value='00'),
                 sg.Combo(functions.MINUTOS, key='set_min', default_value='00'),
                 sg.Text('Data início'),
                 sg.Input(key='dia', size=SIZE_INPUT),
                 sg.CalendarButton(
                     'Calendário', format='%d-%m-%Y',
-                    month_names=functions.MES,
-                    day_abbreviations=functions.ABV_DIAS,
+                    month_names=functions.MONTHS,
+                    day_abbreviations=functions.ACRON_DAYS,
                 ),
             ],
             [
@@ -68,7 +68,7 @@ class ProgramPainel:
             [
                 sg.Button('Confirmar'),
                 sg.Text(f'{"Hora início":>29}'),
-                sg.Combo(functions.horas, key='horas', default_value='07'),
+                sg.Combo(functions.HOURS, key='horas', default_value='07'),
                 sg.Text(':'),
                 sg.Combo(functions.MINUTOS, key='minutos', default_value='10'),
                 sg.Text('H. Extra:'),

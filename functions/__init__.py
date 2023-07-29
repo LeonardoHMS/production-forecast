@@ -2,17 +2,22 @@ import os
 from datetime import datetime, timedelta
 
 import pandas as pd
+from dotenv import load_dotenv
+
+load_dotenv()
 
 DAYS = os.environ.get('DAYS')
 PRODUCTION_LINE = os.environ.get('PRODUCTION_LINE')
+ACRON_DAYS = os.environ.get('ACRON_DAYS')
+MONTHS = os.environ.get('MONTHS')
 
-HORAS = []
+HOURS = []
 for hour in range(24):
     if hour < 10:
         hourN = f'0{hour}'
-        HORAS.append(int(hourN))
+        HOURS.append(int(hourN))
     else:
-        HORAS.append(hour)
+        HOURS.append(hour)
 
 MINUTOS = []
 for minute in range(60):
@@ -101,4 +106,4 @@ def calcularDias(dia, hora, total, qtd_hora, setup, extra, periodo):
 
 
 if __name__ == '__main__':
-    ...
+    print(DAYS)

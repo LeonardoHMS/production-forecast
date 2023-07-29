@@ -1,4 +1,8 @@
+from dotenv import load_dotenv
+
 from frontend import ProgramPainel
+
+load_dotenv()
 
 
 def main():
