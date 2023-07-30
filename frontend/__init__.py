@@ -95,21 +95,27 @@ class ProgramPainel:
         sg.cprint_set_output_destination(
             multiline_key='__OUTPUT__', window=self.window)
 
+    def field_time_correction(self):
+        set_horas = f'{self.values["set_hora"]}:'\
+            f'{self.values["set_min"]}:00'
+        hora = f'{self.values["horas"]}:'\
+            f'{self.values["minutos"]}:00'
+        qtd_hora = fc.get_qty_hour(
+            self.values["material"].strip(),
+            self.values["linha"].strip()
+        )
+        return set_horas, hora, qtd_hora
+
     def startProgram(self):
         while True:
             event, self.values = self.window.Read()
+
             if event == sg.WIN_CLOSED:
                 break
+
             try:
+                set_horas, hora, qtd_hora = self.field_time_correction()
                 if event == 'Confirmar':
-                    set_horas = f'{self.values["set_hora"]}:'\
-                        f'{self.values["set_min"]}:00'
-                    hora = f'{self.values["horas"]}:'\
-                        f'{self.values["minutos"]}:00'
-                    qtd_hora = fc.get_qty_hour(
-                        self.values["material"].strip(),
-                        self.values["linha"].strip()
-                    )
                     if qtd_hora == 'NP':
                         sg.cprint('Material não é produzido nesta linha!')
                     else:
@@ -117,7 +123,7 @@ class ProgramPainel:
                             minutos_dia = 648
                         else:
                             minutos_dia = 528
-                        # 48 seria tempo parado, para dados mais reais
+                        # 48 minutos seria tempo parado, para dados mais reais
                         qtd_dia = (int(qtd_hora)/60) *\
                             ((int(minutos_dia) - 48) -
                              (int(self.values["set_hora"])*60))
@@ -142,15 +148,8 @@ class ProgramPainel:
                             f'Qtd. Aproximada 1º dia: {int(qtd_dia)} Unidades')
                         sg.cprint(f'Demanda prox. Dias: {demanda}')
                         sg.cprint(f'Acabará em(Estimativa): {fim_producao}')
+
                 elif event == '24 Horas':
-                    set_horas = f'{self.values["set_hora"]}:'\
-                        f'{self.values["set_min"]}:00'
-                    hora = f'{self.values["horas"]}:'\
-                        f'{self.values["minutos"]}:00'
-                    qtd_hora = fc.get_qty_hour(
-                        self.values["material"].strip(),
-                        self.values["linha"].strip()
-                    )
                     fim_producao = fc.calculate_production_in_24_hours(
                         self.values.get('dia'),
                         hora,
@@ -164,8 +163,10 @@ class ProgramPainel:
                     )
                     sg.cprint(f'Qtd. Hora: {qtd_hora} Unidades')
                     sg.cprint(f'Acabará em(Estimativa): {fim_producao}')
+
                 elif event == 'link':
                     webbrowser.open('https://github.com/LeonardoHMS')
+
             except Exception:
                 sg.cprint('Informações inválidas!')
                 sg.popup(traceback.format_exc(), title='Erro',
