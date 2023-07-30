@@ -71,15 +71,15 @@ class ProgramPainel:
                 sg.Button('Confirmar'),
                 sg.Button('24 Horas'),
                 sg.Text(f'{"Hora início":>29}'),
-                sg.Combo(fc.HOURS, key='horas', default_value='07'),
+                sg.Combo(fc.HOURS, key='horas', default_value='06'),
                 sg.Text(':'),
                 sg.Combo(fc.MINUTES, key='minutos',
-                         default_value='10'),
+                         default_value='00'),
                 sg.Text('H. Extra:'),
                 sg.Checkbox('', default=False, key='extra')
             ],
             [sg.Multiline(
-                size=(50, 18),
+                size=(55, 18),
                 key='__OUTPUT__',
                 font=FONT_STR,
                 do_not_clear=False

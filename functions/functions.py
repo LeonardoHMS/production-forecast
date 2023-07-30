@@ -124,10 +124,8 @@ def calculate_production_in_24_hours(day, hours, total, qty_hours, setup):
         data += timedelta(minutes=1)
         week_index = data.weekday()
         dia_semana = DAYS[week_index]
-        if dia_semana == 'Sábado':
-            data += timedelta(days=2)
-        if dia_semana == 'Domingo':
-            data += timedelta(days=1)
+        if dia_semana == 'Sábado' and data.hour == 6:
+            data += timedelta(hours=48)
     return data.strftime(f'{dia_semana}, %d-%m-%Y as %H:%M:%S')
 
 
