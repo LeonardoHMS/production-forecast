@@ -39,7 +39,7 @@ def get_qty_hour(material_id, linha):
     dataframe = load_dataBase()
     dataframe = dataframe.set_index('codigo')
     hour = dataframe.loc[material_id, linha]
-    return hour
+    return int(hour)
 
 
 def calculate_production(day, hours, total, qty_hours, setup, extra, period):

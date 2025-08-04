@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Tempo de Produção</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+        <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <!-- Inicialização -->
+    <script>
+        flatpickr("input[name='dia']", {
+            dateFormat: "d-m-Y",
+            locale: {
+                firstDayOfWeek: 1,
+                weekdays: {
+                    shorthand: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                    longhand: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'],
+                },
+                months: {
+                    shorthand: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                    longhand: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                },
+            }
+        });
+    </script>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Buscar Material</h2>
+            <form method="POST" action="/buscar">
+                <label>Código:</label>
+                <input type="text" name="codigo_busca" required>
+                <button type="submit">Buscar</button>
+            </form>
+            <div class="result-box">
+                {{ material_info|safe }}
+            </div>
+        </aside>
+
+        <main class="content">
+            <h1>Simulador de Produção</h1>
+            <form method="POST">
+                <label>Cod. Material:</label>
+                <input type="text" name="material" required>
+
+                <label>Linha:</label>
+                <select name="linha">
+                    {% for linha in linhas %}
+                        <option value="{{ linha }}">{{ linha }}</option>
+                    {% endfor %}
+                </select>
+
+                <label>Qtd P/ Produzir:</label>
+                <input type="text" name="produzir" required>
+
+                <label>Setup:</label>
+                <select name="set_hora">
+                    {% for h in horas %}
+                        <option>{{ "%02d" % h }}</option>
+                    {% endfor %}
+                </select> :
+                <select name="set_min">
+                    {% for m in minutos %}
+                        <option>{{ "%02d" % m }}</option>
+                    {% endfor %}
+                </select>
+
+                <label>Data Início (DD-MM-YYYY):</label>
+                <input type="text" name="dia" required>
+
+                <label>Hora Início:</label>
+                <select name="horas">
+                    {% for h in horas %}
+                        <option>{{ "%02d" % h }}</option>
+                    {% endfor %}
+                </select> :
+                <select name="minutos">
+                    {% for m in minutos %}
+                        <option>{{ "%02d" % m }}</option>
+                    {% endfor %}
+                </select>
+
+                <label>Período:</label>
+                <input type="radio" name="periodo" value="diurno" checked> Diurno
+                <input type="radio" name="periodo" value="noturno"> Noturno
+
+                <label>H. Extra:</label>
+                <input type="checkbox" name="extra">
+
+                <button type="submit" name="acao" value="confirmar">Confirmar</button>
+                <button type="submit" name="acao" value="24horas">24 Horas</button>
+            </form>
+
+            <div>
+                <h3>Resultado:</h3>
+                <p>{{ resultado|safe }}</p>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
